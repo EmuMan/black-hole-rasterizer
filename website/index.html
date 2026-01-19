@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSC 471 - Jacob Kelleran</title>
+    <style>
+        body {
+            font-family: Consolas, monospace;
+        }
+
+        a {
+            color: black;
+            text-decoration: underline;
+        }
+
+        div.header {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            border-bottom: 4px solid black;
+        }
+
+        div.header > h1, div.header > h2 {
+            width: 100%;
+            text-align: center;
+        }
+        
+        div.header > h1 {
+            font-size: 3rem;
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        div.header > h2 {
+            font-size: 1.5rem;
+            margin-top: 0;
+            padding-top: 0;
+            margin-bottom: 2rem;
+        }
+
+        div.content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 5rem 10rem;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 768px) {
+            div.content {
+                padding: 2rem 1rem;
+            }
+        }
+
+        div.content > p {
+            width: 100%;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            div.content > p {
+                font-size: 1rem;
+            }
+        }
+
+        div.content > img {
+            width: 100%;
+            max-width: 50rem;
+            height: auto;
+            margin: 2rem 0;
+            transition: transform 0.2s;
+        }
+
+        div.content > img:hover {
+            transform: scale(1.05);
+        }
+
+        div.content > h2 {
+            font-size: 2rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Rasterized Black Holes</h1>
+        <h2>By Jacob Kelleran for CSC 471</h2>
+    </div>
+
+    <div class="content">
+        <h2>Project Overview</h2>
+        <p>For this project, I created a rasterization framework that aims to accurately simulate images of areas warped by black holes. Below are some examples of before and after the effect is toggled.</p>
+        <img src="before_bh.png" alt="Before Rasterization">
+        <img src="after_bh.png" alt="After Rasterization">
+        <img src="after_bh_2.png" alt="After Rasterization">
+
+        <h2>Video Demo</h2>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/vqTB9Rs9sYQ?si=IbTJgM9pakse-eHe" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+        <h2>Source Code</h2>
+        <p>I currently do not have the source code uploaded to any public repositories. I will try to update this page when that changes.</p>
+
+        <h2>Technical Details</h2>
+        <p>A lot of the work done for this project was previously explored by <a href="https://www.semanticscholar.org/paper/Implementing-a-Rasterization-Framework-for-a-Black-Yamashita/90a9b04b7153462da9d8edecdfa8262bdd689a4c" target="_blank">this paper</a>.</p>
+        <p>The black hole effect is derived from the Schwarzschild metric, a solution to the Einstein field equations that can be used to accurately model light paths within black hole spacetime. As the paper suggests, the boundary value problem (BVP) of the set of derived differential geodesic equations can be solved to evaluate the trajectories a light ray would take between a vertex and an observer around a black hole (I focused on two solutions for simplicity).</p>
+        <img src="bvp_geodesic.png" alt="BVP Geodesic">
+        <p>Unfortunately, this is a very expensive computation, even moreso because I was using Python's `scipy` library to brute force solutions from boundary conditions and initial states. My solution to this problem was similar to the paper's, albeit less... thorough. I precomputed a set of information inside a 3D texture that could be efficiently sampled from within the vertex shader. The below example is much lower resolution than the one I ended up using, but still paints a good example.</p>
+        <img src="8x5_mesh.png" alt="8x5 Mesh">
+        <p>This information could then be used to reconstruct the scene as it would appear with the added complexity of the black hole. Two draw calls were also used for this: one for the more direct (primary) path light would take around the black hole, and one for the more roundabout (secondary) one. To actually do the translation, the angle at which the path hit the observer and the distance of the path were used to create a new position for the vertex, placing it in a location that matches how it would appear in a black hole render. The angle at which the ray hits the vertex was also used for normal and lighting calculations. In a way, the curved path is "unwrapped" to become a straight line, which can then be used in the standard rasterization pipeline.</p>
+        <img src="bvp_geodesic_extended.png" alt="BVP Geodesic Extended">
+        <p>Because of this purely vertex-shader-based solution, the actual scene camera can be decoupled from the camera the black hole system uses to warp the geometry, allowing the user to fly through the distorted space as if seeing it from another angle.</p>
+        <img src="displaced_view.png" alt="Displaced View">
+    </div>
+</body>
+</html>
