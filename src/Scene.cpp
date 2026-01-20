@@ -73,7 +73,7 @@ void BlackHoleMap::sendToGPU()
 	glBindTexture(GL_TEXTURE_3D, 0);
 }
 
-glm::vec3 BlackHoleMap::getValue(float vr, float vPhi, float or)
+glm::vec3 BlackHoleMap::getValue(float vr, float vPhi, float orAngle)
 {
 	if (vr >= 1.0f)
 		vr = 0.9999f;
@@ -85,14 +85,14 @@ glm::vec3 BlackHoleMap::getValue(float vr, float vPhi, float or)
 	if (vPhi < 0.0f)
 		vPhi = 0.0f;
 
-	if (or >= 1.0f)
-		or = 0.9999f;
-	if (or < 0.0f)
-		or = 0.0f;
+	if (orAngle >= 1.0f)
+		orAngle = 0.9999f;
+	if (orAngle < 0.0f)
+		orAngle = 0.0f;
 
 	int vrIndex = floorf(vr * vrResolution);
 	int vPhiIndex = floorf(vPhi * vPhiResolution);
-	int orIndex = floorf(or * orResolution);
+	int orIndex = floorf(orAngle * orResolution);
 
 	std::cout << "vrIndex: " << vrIndex << ", vPhiIndex: " << vPhiIndex << ", orIndex: " << orIndex << std::endl;
 

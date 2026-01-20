@@ -28,7 +28,7 @@ SolidColorMaterial::SolidColorMaterial(int programIndex, float r, float g, float
 void SolidColorMaterial::apply(std::shared_ptr<Scene> scene)
 {
 	Material::apply(scene);
-	auto& currentProgram = scene->getCurrentShaderProgram();
+	auto currentProgram = scene->getCurrentShaderProgram();
 	glUniform3f(currentProgram->getUniform("solidColor"), r, g, b);
 }
 
@@ -44,7 +44,7 @@ BlinnPhongMaterial::BlinnPhongMaterial(int programIndex, glm::vec3 matAmb, glm::
 void BlinnPhongMaterial::apply(std::shared_ptr<Scene> scene)
 {
 	Material::apply(scene);
-	auto& currentProgram = scene->getCurrentShaderProgram();
+	auto currentProgram = scene->getCurrentShaderProgram();
 	glUniform3f(currentProgram->getUniform("matAmb"), matAmb.r, matAmb.g, matAmb.b);
 	glUniform3f(currentProgram->getUniform("matDif"), matDif.r, matDif.g, matDif.b);
 	glUniform3f(currentProgram->getUniform("matSpec"), matSpec.r, matSpec.g, matSpec.b);
@@ -64,7 +64,7 @@ TexBlinnPhongMaterial::TexBlinnPhongMaterial(int programIndex, std::shared_ptr<T
 void TexBlinnPhongMaterial::apply(std::shared_ptr<Scene> scene)
 {
 	Material::apply(scene);
-	auto& currentProgram = scene->getCurrentShaderProgram();
+	auto currentProgram = scene->getCurrentShaderProgram();
 	texture->bind(currentProgram->getUniform("Texture0"));
 	glUniform1f(currentProgram->getUniform("amb"), amb);
 	glUniform1f(currentProgram->getUniform("dif"), dif);

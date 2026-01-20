@@ -88,7 +88,7 @@ MeshObject::MeshObject(std::shared_ptr<Scene> scene, std::shared_ptr<Model> mode
 void MeshObject::draw(bool freeCam)
 {
 	material->apply(scene);
-	auto& program = scene->getCurrentShaderProgram();
+	auto program = scene->getCurrentShaderProgram();
 	scene->addLightsToProgram(program);
 	scene->addBlackHoleToProgram(program);
 	glUniformMatrix4fv(program->getUniform("M"), 1, GL_FALSE, glm::value_ptr(globalTransform));

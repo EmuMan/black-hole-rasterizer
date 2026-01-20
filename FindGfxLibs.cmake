@@ -1,6 +1,5 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.16)
 
-# findGLFW helper function
 function(_findGLFW3_vsbinary target)
 
     FILE(GLOB GLFW_VC_LIB_DIRS "${GLFW_DIR}/lib-vc*")
@@ -33,7 +32,6 @@ function(_findGLFW3_vsbinary target)
 
 endfunction(_findGLFW3_vsbinary)
 
-# findGLFW helper function
 function(_findGLFW3_sourcepkg target)
 
     option(GLFW_BUILD_EXAMPLES "GLFW_BUILD_EXAMPLES" OFF)
@@ -51,16 +49,12 @@ function(_findGLFW3_sourcepkg target)
 endfunction(_findGLFW3_sourcepkg)
 
 
-# Find and add GLFW3 using find_package or environment variable 
 function(findGLFW3 target)
 
     find_package(glfw3 QUIET)
 
     if(glfw3_FOUND)
-
-        # Include paths are added automatically by the glfw3 find_package
-        target_link_libraries(${CMAKE_PROJECT_NAME} glfw)
-
+        target_link_libraries(${target} PUBLIC glfw)
     elseif(DEFINED ENV{GLFW_DIR})
 
         set(GLFW_DIR "$ENV{GLFW_DIR}")
@@ -76,18 +70,17 @@ function(findGLFW3 target)
 
         if(GLFW_LIBRARIES)
             target_include_directories(${target} PUBLIC "${GLFW_DIR}/include")
-            target_link_libraries(${target} "${GLFW_LIBRARIES}")
+            target_link_libraries(${target} PUBLIC "${GLFW_LIBRARIES}")
         else()
             message(FATAL_ERROR "Internal Error! GLFW_LIBRARIES variable did not get set! Contact your TA, this is their fault.")
         endif()
 
     else()
-        message(FATAL_ERROR "glfw3 could not be found through find_package or environment varaible 'GLFW_DIR'! glfw3 must be installed!")
+        message(FATAL_ERROR "glfw3 could not be found through find_package or environment variable 'GLFW_DIR'! glfw3 must be installed!")
     endif()
 
 endfunction(findGLFW3)
 
-# Find and add GLM using find_package or environment variable 
 function(findGLM target)
 
     find_package(glm QUIET)

@@ -30,7 +30,7 @@ public:
 	GLint textureUnit;
 	void loadFromFile(std::string path);
 	void sendToGPU();
-	glm::vec3 getValue(float vr, float vPhi, float or);
+	glm::vec3 getValue(float vr, float vPhi, float orAngle);
 	void bind(GLint handle);
 	void unbind();
 };
