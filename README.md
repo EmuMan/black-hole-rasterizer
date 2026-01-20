@@ -84,8 +84,3 @@ my bigger headaches throughout this project. It's there on more standard meshes 
 apparent. I ended up using a hacky workaround and fine tuning some parameters that shouldn't even
 exist, so I'd like to revisit it with a couple of other ideas I have to see if I can get a more
 elegant solution working.
-
-The final shortcoming is not completing any of the features of Lab 8/9. I kind of wanted to give
-this my full attention, and I ended up not having any time to get the lab features done. That's
-okay, though. I'm ultimately glad I went this route because now I'm super invested in this niche
-topic and I think that's a great place to be.
