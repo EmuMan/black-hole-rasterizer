@@ -15,6 +15,11 @@ make
 ./BlackHoleRasterizer
 ```
 
+## Demo
+
+If you do not want to build and run the project yourself, I have recorded
+[a video demo](https://youtu.be/vqTB9Rs9sYQ) showing off the features that you can watch instead.
+
 ## Details
 
 The main attraction is the black hole in the middle of the scene, which can be toggled with
